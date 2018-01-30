@@ -110,9 +110,13 @@ func (c *devfsConn) Configure(k, v int) error {
 		c.bits = b
 	case driver.MaxSpeed:
 		s := uint32(v)
+	// The fix is as easy as commenting out these lines. This IOCTL is apparently device-specific.
+	// See https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=177965
+	/*
 		if err := c.ioctl(requestCode(devfs_WRITE, devfs_MAGIC, 4, 4), uintptr(unsafe.Pointer(&s))); err != nil {
 			return fmt.Errorf("error setting speed to %v: %v", s, err)
 		}
+	*/
 		c.speed = s
 	case driver.Order:
 		o := uint8(v)
