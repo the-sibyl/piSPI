@@ -12,7 +12,8 @@ import (
 	"syscall"
 	"unsafe"
 
-	"golang.org/x/exp/io/spi/driver"
+//	"golang.org/x/exp/io/spi/driver"
+	"github.com/the-sibyl/piSPI/driver"
 )
 
 const (

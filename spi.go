@@ -8,7 +8,8 @@ package spi // import "golang.org/x/exp/io/spi"
 import (
 	"time"
 
-	"golang.org/x/exp/io/spi/driver"
+//	"golang.org/x/exp/io/spi/driver"
+	"github.com/the-sibyl/piSPI/driver"
 )
 
 // Mode represents the SPI mode number where clock parity (CPOL)

@@ -9,7 +9,8 @@ package spi
 import (
 	"errors"
 
-	"golang.org/x/exp/io/spi/driver"
+//	"golang.org/x/exp/io/spi/driver"
+	"github.com/the-sibyl/piSPI/driver"
 )
 
 // Devfs is a no-implementation of an SPI driver that works against the devfs.
