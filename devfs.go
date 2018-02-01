@@ -29,7 +29,6 @@ const (
 	devfs_SIZESHIFT = devfs_TYPESHIFT + devfs_TYPEBITS
 	devfs_DIRSHIFT  = devfs_SIZESHIFT + devfs_SIZEBITS
 
-	// FTS: I am swapping these. READ started out as 2 and WRITE as 4.
 	devfs_READ  = 4
 	devfs_WRITE = 2
 )
@@ -98,16 +97,11 @@ type devfsConn struct {
 func (c *devfsConn) Configure(k, v int) error {
 	switch k {
 	case driver.Mode:
-	//	m := uint8(v)
-		m := v
-		// I discovered later in the evening with a logic analyzer that the mode bit is "ignored" in this implementation
-		// just as the speed is.
-		fmt.Println("m before:", m)
+		m := uint8(v)
 		if err := c.ioctl(requestCode(devfs_WRITE, devfs_MAGIC, 1, 1), uintptr(unsafe.Pointer(&m))); err != nil {
 			return fmt.Errorf("error setting mode to %v: %v", m, err)
 		}
-		fmt.Println("m after:", m)
-		c.mode = uint8(m)
+		c.mode = m
 	case driver.Bits:
 		b := uint8(v)
 		if err := c.ioctl(requestCode(devfs_WRITE, devfs_MAGIC, 3, 1), uintptr(unsafe.Pointer(&b))); err != nil {
@@ -116,13 +110,9 @@ func (c *devfsConn) Configure(k, v int) error {
 		c.bits = b
 	case driver.MaxSpeed:
 		s := uint32(v)
-		// The fix is as easy as commenting out these lines. This IOCTL is apparently device-specific.
-		// See https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=177965
-		/*
 		if err := c.ioctl(requestCode(devfs_WRITE, devfs_MAGIC, 4, 4), uintptr(unsafe.Pointer(&s))); err != nil {
 			return fmt.Errorf("error setting speed to %v: %v", s, err)
 		}
-		*/
 		c.speed = s
 	case driver.Order:
 		o := uint8(v)
